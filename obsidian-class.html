@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Obsidian-class Starship · Specification</title>
+  <style>
+    :root{
+      --bg:#07070a;
+      --panel:#0c0c12;
+      --text:#ececf2;
+      --muted:#b7b7c7;
+      --line:#1f2030;
+      --seal:#c9c9d6;
+      --good:#5ee6b7;
+      --warn:#ff6b6b;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1100px 700px at 50% -10%, #151533 0%, var(--bg) 55%);
+      color:var(--text);
+      line-height:1.6;
+    }
+    a{color:var(--text); text-decoration:underline; text-underline-offset:3px}
+    .wrap{max-width:1060px; margin:0 auto; padding:0 18px}
+    header{
+      padding:52px 0 18px;
+      border-bottom:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.04) 0%, rgba(255,255,255,0) 70%);
+    }
+    h1{
+      margin:0;
+      font-size:32px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+    .tag{
+      margin:10px 0 0;
+      color:var(--muted);
+      max-width:900px;
+    }
+    nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      padding:16px 0 0;
+      align-items:center;
+    }
+    .pill{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      padding:9px 12px;
+      border-radius:999px;
+      text-decoration:none;
+      color:var(--text);
+      font-size:13px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    main{padding:22px 0 50px}
+    .panel{
+      background:rgba(255,255,255,.02);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:18px;
+    }
+    h2{
+      margin:0 0 10px;
+      font-size:15px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--seal);
+    }
+    .small{color:var(--muted); font-size:14px}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+      gap:14px;
+      margin-top:12px;
+    }
+    .hero{
+      margin-top:14px;
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.25);
+    }
+    .hero img{display:block; width:100%; height:auto}
+    .strip{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+      gap:10px;
+      margin-top:12px;
+    }
+    .thumb{
+      border:1px solid var(--line);
+      border-radius:14px;
+      overflow:hidden;
+      background:rgba(0,0,0,.25);
+      min-height:120px;
+    }
+    .thumb img{display:block; width:100%; height:auto}
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:10px;
+      font-size:14px;
+    }
+    th, td{
+      padding:10px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      vertical-align:top;
+    }
+    th{
+      text-align:left;
+      color:var(--muted);
+      font-weight:600;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-size:12px;
+      width:34%;
+    }
+    .stamp{
+      display:inline-block;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(0,0,0,.28);
+      padding:7px 10px;
+      border-radius:10px;
+      font-size:12px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      white-space:nowrap;
+      color:var(--seal);
+    }
+    .stamp.sealed{border-color:rgba(210,210,222,.30)}
+    footer{
+      border-top:1px solid var(--line);
+      padding:22px 0 40px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .note{
+      border-left:3px solid rgba(255,255,255,.15);
+      padding-left:12px;
+      margin-top:10px;
+      color:var(--muted);
+      font-size:14px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>Obsidian-class Starship</h1>
+    <p class="tag">Oversight Multi-Role Vessel (OMV) · 2409 Program · <span class="stamp sealed">OBSIDIAN-SEALED</span></p>
+    <nav>
+      <a class="pill" href="index.html">Back to Home</a>
+      <a class="pill" href="#spec">Specification</a>
+      <a class="pill" href="#systems">Systems</a>
+      <a class="pill" href="#decks">Deck Listing</a>
+      <a class="pill" href="#assets">Visual Assets</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO IMAGE -->
+  <section class="panel" id="assets">
+    <h2>Visual Reference</h2>
+    <p class="small">Primary hull reference for Obsidian-class (2409).</p>
+    <div class="hero">
+      <!-- Your uploaded image filename (space included) -->
+      <img src="Obsidian%20Class.png" alt="Obsidian-class Starship in space">
+    </div>
+
+    <!-- Optional gallery strip: replace filenames with your actual uploaded images -->
+    <div class="strip" style="margin-top:12px;">
+      <div class="thumb">
+        <!-- Replace with your TF1 insignia filename -->
+        <img src="tf1.png" alt="Task Force 1 Insignia (placeholder)">
+      </div>
+      <div class="thumb">
+        <!-- Replace with your TF2 insignia filename -->
+        <img src="tf2.png" alt="Task Force 2 Insignia (placeholder)">
+      </div>
+      <div class="thumb">
+        <!-- Replace with your TF3 insignia filename -->
+        <img src="tf3.png" alt="Task Force 3 Insignia (placeholder)">
+      </div>
+    </div>
+
+    <p class="note">
+      Replace <strong>tf1.png / tf2.png / tf3.png</strong> with your real uploaded filenames, or delete the strip entirely.
+    </p>
+  </section>
+
+  <!-- FORMAL SPECIFICATION -->
+  <section class="panel" id="spec" style="margin-top:14px;">
+    <h2>Designation & Purpose</h2>
+    <p>
+      The <strong>Obsidian-class Starship</strong> was commissioned to address repeated failures of conventional platforms to
+      adequately <strong>observe, document, and survive</strong> long-duration consequence-bearing missions.
+    </p>
+    <p>
+      Unlike exploratory, diplomatic, or frontline combat vessels, the Obsidian-class operates where outcomes remain unresolved,
+      historical accountability is required, and withdrawal introduces unacceptable loss of information.
+    </p>
+    <p class="small"><em>The Obsidian-class is not an exploration vessel. It is an oversight platform.</em></p>
+
+    <h2 style="margin-top:16px;">Design Philosophy</h2>
+    <p>
+      The Obsidian-class is built around a single doctrinal principle:
+      <strong>Truth requires more than one witness.</strong>
+    </p>
+    <p>
+      The class is intended to deploy in parallel units to minimize technological bias while enabling independent analytical
+      divergence through separate crews and command interpretation.
+    </p>
+  </section>
+
+  <!-- SPECS GRID -->
+  <section class="panel" id="systems" style="margin-top:14px;">
+    <h2>Core Characteristics</h2>
+
+    <table>
+      <tr>
+        <th>Classification</th>
+        <td>Obsidian-class Starship (Oversight Multi-Role Vessel · OMV)</td>
+      </tr>
+      <tr>
+        <th>Era of Introduction</th>
+        <td>2409</td>
+      </tr>
+      <tr>
+        <th>Primary Role</th>
+        <td>Oversight, consequence assessment, mission continuity</td>
+      </tr>
+      <tr>
+        <th>Secondary Roles</th>
+        <td>Advanced anomaly observation · Historical/ethical impact analysis · Data preservation/verification · Survivability under prolonged exposure</td>
+      </tr>
+      <tr>
+        <th>Operational Profile</th>
+        <td>Persistent deployment · High autonomy · Low public visibility · Elevated classification protocols</td>
+      </tr>
+      <tr>
+        <th>Doctrinal Note</th>
+        <td><strong>Parallel Oversight</strong>: Independent conclusions are preserved; consensus is not required.</td>
+      </tr>
+    </table>
+
+    <h2 style="margin-top:16px;">Systems Summary</h2>
+    <div class="grid">
+      <div class="panel" style="border-radius:16px;">
+        <h2 style="margin-top:0;">Oversight Systems</h2>
+        <p class="small">
+          Multi-layer encrypted record cores · Segmented data partitioning to prevent narrative contamination ·
+          Independent black-box archives sealed at mission start.
+        </p>
+      </div>
+      <div class="panel" style="border-radius:16px;">
+        <h2 style="margin-top:0;">Sensor & Analysis Suite</h2>
+        <p class="small">
+          Long-range high-resolution arrays · Temporal/casualty variance monitoring · Cross-vessel comparison protocols.
+        </p>
+      </div>
+      <div class="panel" style="border-radius:16px;">
+        <h2 style="margin-top:0;">Survivability</h2>
+        <p class="small">
+          Reinforced geometry for anomaly exposure · Enhanced shielding against exotic phenomena ·
+          Damage-tolerant internal architecture and redundancy.
+        </p>
+      </div>
+      <div class="panel" style="border-radius:16px;">
+        <h2 style="margin-top:0;">Tactical Capability</h2>
+        <p class="small">
+          Defensive and precision-response armament · Escalation-controlled doctrine ·
+          Designed to disengage without narrative loss.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVISED DECK LISTING -->
+  <section class="panel" id="decks" style="margin-top:14px;">
+    <h2>Deck Listing · Oversight Configuration (2409)</h2>
+    <p class="small">Revised for Obsidian Accord operations. Layout emphasizes redundancy, isolation, and record integrity.</p>
+
+    <table>
+      <tr>
+        <th>Deck 1</th>
+        <td><strong>Command & Oversight</strong> — Bridge, mission control, secured conference room, command black-box access point.</td>
+      </tr>
+      <tr>
+        <th>Deck 2</th>
+        <td><strong>Ops Coordination</strong> — Situation room, comms relay, task force coordination cells (TF1/TF2/TF3 interfaces).</td>
+      </tr>
+      <tr>
+        <th>Deck 3</th>
+        <td><strong>Primary Sensors</strong> — Sensor fusion lab, anomaly analysis bays, temporal variance monitors.</td>
+      </tr>
+      <tr>
+        <th>Deck 4</th>
+        <td><strong>Science & Containment</strong> — Modular labs, controlled specimen handling, isolation workrooms.</td>
+      </tr>
+      <tr>
+        <th>Deck 5</th>
+        <td><strong>Medical & Recovery</strong> — Sickbay, triage, counseling suite, quarantine ward (sealed).</td>
+      </tr>
+      <tr>
+        <th>Deck 6</th>
+        <td><strong>Security & Tactical Systems</strong> — Armory, security control, boarding response lockers, escalation safeties.</td>
+      </tr>
+      <tr>
+        <th>Deck 7</th>
+        <td><strong>Records Core</strong> — Encrypted archives, partitioned mission logs, independent recorder banks (Obsidian-sealed).</td>
+      </tr>
+      <tr>
+        <th>Deck 8</th>
+        <td><strong>Engineering Control</strong> — Main engineering, power management, redundancy oversight, damage control coordination.</td>
+      </tr>
+      <tr>
+        <th>Deck 9</th>
+        <td><strong>Systems Redundancy</strong> — Backup cores, environmental failsafes, sensor repeaters, hardened storage.</td>
+      </tr>
+      <tr>
+        <th>Deck 10</th>
+        <td><strong>Crew Support</strong> — Quarters, mess, training, limited recreation (low-visibility posture).</td>
+      </tr>
+      <tr>
+        <th>Deck 11</th>
+        <td><strong>Logistics</strong> — Cargo, fabrication, repair bays, equipment staging for prolonged deployments.</td>
+      </tr>
+      <tr>
+        <th>Deck 12</th>
+        <td><strong>Shuttles & Mission Pods</strong> — Hangar, auxiliary craft ops, EVA staging, recovery & extraction loadouts.</td>
+      </tr>
+    </table>
+
+    <p class="note">
+      Obsidian doctrine assumes: (1) prolonged anomaly exposure, (2) contested conclusions, and (3) the need to preserve truth even when crews disagree.
+    </p>
+  </section>
+
+  <!-- DEPLOYMENT STATUS -->
+  <section class="panel" style="margin-top:14px;">
+    <h2>Operational Doctrine · Parallel Oversight</h2>
+    <p>
+      Obsidian-class vessels deploy as parallel witnesses. Each maintains independent analysis, separate command interpretation,
+      and distinct mission logs. Discrepancy is preserved. Consensus is not required.
+    </p>
+
+    <h2 style="margin-top:16px;">Known Deployment</h2>
+    <p class="small">
+      Task Force 1 · Obsidian Prime (Prime Triad): <strong>USS Sacagawea</strong> · <strong>USS Crazy Horse</strong> · <strong>USS Powhatan</strong>
+    </p>
+
+    <h2 style="margin-top:16px;">Production Status</h2>
+    <p class="small">
+      Not in active production. Three hulls authorized. Further construction requires unanimous Oversight Council approval.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  Obsidian Accord · Obsidian-Sealed Records · 2409
+</footer>
+
+</body>
+</html>
