@@ -1,81 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Obsidian Accord</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #0b0b0d;
-      color: #e6e6e6;
-      line-height: 1.6;
+    :root{
+      --bg:#07070a;
+      --panel:#0c0c12;
+      --text:#ececf2;
+      --muted:#b7b7c7;
+      --line:#1f2030;
+      --chip:#10101a;
+      --good:#5ee6b7;
+      --warn:#ff6b6b;
+      --seal:#c9c9d6;
     }
-    header {
-      padding: 4rem 1.5rem;
-      text-align: center;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1100px 700px at 50% -10%, #151533 0%, var(--bg) 55%);
+      color:var(--text);
+      line-height:1.6;
     }
-    section {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 3rem 1.5rem;
+    a{color:var(--text); text-decoration:underline; text-underline-offset:3px}
+    .wrap{max-width:1060px; margin:0 auto; padding:0 18px}
+    header{
+      padding:56px 0 22px;
+      border-bottom:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.04) 0%, rgba(255,255,255,0) 70%);
     }
-    h1, h2 {
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+    h1{
+      margin:0;
+      font-size:40px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
     }
-    img {
-      max-width: 100%;
-      display: block;
-      margin: 2rem auto;
+    .tag{
+      margin:10px 0 0;
+      color:var(--muted);
+      max-width:820px;
     }
-    footer {
-      text-align: center;
-      padding: 2rem;
-      opacity: 0.6;
-      font-size: 0.9rem;
+    nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      padding:18px 0 0;
+    }
+    .pill{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+      padding:9px 12px;
+      border-radius:999px;
+      text-decoration:none;
+      color:var(--text);
+      font-size:13px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+
+    main{padding:26px 0 50px}
+
+    .panel{
+      background:rgba(255,255,255,.02);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:18px;
+    }
+
+    h2{
+      margin:0 0 10px;
+      font-size:16px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--seal);
+    }
+    .small{color:var(--muted); font-size:14px}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+      gap:14px;
+      margin-top:12px;
+    }
+
+    /* DOSSIER CARDS */
+    .card{
+      position:relative;
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px;
+      overflow:hidden;
+    }
+    .card:before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: radial-gradient(700px 220px at 20% -10%, rgba(94,230,183,.12), transparent 55%);
+      pointer-events:none;
+      opacity:.55;
+    }
+    .card .top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      position:relative;
+    }
+    .ship{
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin:0;
+    }
+    .class{
+      margin:4px 0 0;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:12px;
+      position:relative;
+    }
+    .chip{
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.25);
+      padding:6px 9px;
+      border-radius:999px;
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .stamp{
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(0,0,0,.28);
+      padding:7px 10px;
+      border-radius:10px;
+      font-size:12px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      position:relative;
+      white-space:nowrap;
+    }
+    .stamp.active{color:var(--good); border-color:rgba(94,230,183,.35)}
+    .stamp.deployed{color:#7cc5ff; border-color:rgba(124,197,255,.35)}
+    .stamp.sealed{color:#d2d2de; border-color:rgba(210,210,222,.30)}
+    .stamp.alert{color:var(--warn); border-color:rgba(255,107,107,.35)}
+
+    .meta{
+      margin-top:12px;
+      position:relative;
+      border-top:1px dashed rgba(255,255,255,.12);
+      padding-top:12px;
+      display:grid;
+      gap:8px;
+      font-size:14px;
+    }
+    .row{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .k{color:var(--muted); letter-spacing:.08em; text-transform:uppercase; font-size:12px}
+    .v{color:var(--text)}
+    footer{
+      border-top:1px solid var(--line);
+      padding:22px 0 40px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size:12px;
+      padding:2px 6px;
+      border:1px solid var(--line);
+      border-radius:6px;
+      background:rgba(255,255,255,.03);
+      color:var(--seal);
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>Obsidian Accord</h1>
-  <p>Oversight exists after certainty fails.</p>
+  <div class="wrap">
+    <h1>Obsidian Accord</h1>
+    <p class="tag">A 2409 narrative fleet project focused on oversight, consequence, and the Ancient Fleet resurgence.</p>
+    <nav>
+      <a class="pill" href="#briefing">Briefing</a>
+      <a class="pill" href="#taskforces">Task Forces</a>
+      <a class="pill" href="#dossiers">Ship Dossiers</a>
+      <a class="pill" href="#join">Join</a>
+    </nav>
+  </div>
 </header>
 
-<section>
-  <h2>Welcome</h2>
-  <p>
-    The Obsidian Accord is a narrative-focused Star Trek project set in 2409.
-    We exist to observe, evaluate, and respond where consequences persist
-    and history refuses to remain buried.
-  </p>
-</section>
+<main class="wrap">
 
-<section>
-  <h2>The Ancient Fleet</h2>
-  <p>
-    Fragments of an early Starfleet expansion force have begun to resurface.
-    Their technology, failures, and unresolved decisions continue to shape
-    the present.
-  </p>
-</section>
+  <section id="briefing" class="panel">
+    <h2>Briefing</h2>
+    <p><strong>We exist after certainty fails.</strong></p>
+    <p>
+      Starfleet believed the Ancient Fleet was a myth—redacted history, dormant hulls, corrupted records.
+      But fragments persist across the quadrant, and their consequences are unfolding in the present.
+      The Obsidian Accord observes, evaluates, and responds when history refuses to stay buried.
+    </p>
+    <p class="small"><em>Some missions don’t end cleanly. Someone has to stay and take notes.</em></p>
+  </section>
 
-<section>
-  <h2>Flagship</h2>
-  <p>
-    <strong>USS Sacagawea</strong><br>
-    Equinox-class Science Vessel<br>
-    Task Force 1 – Oversight Prime
-  </p>
-</section>
+  <section id="taskforces" style="margin-top:16px" class="panel">
+    <h2>Task Forces</h2>
+    <div class="grid">
+      <div class="panel" style="border-radius:16px">
+        <h2 style="margin-top:0">TF1 · Obsidian Prime</h2>
+        <p>Oversight & consequence assessment.</p>
+        <p class="small">Embedded observation. Long-tail outcomes. Obsidian-sealed records.</p>
+      </div>
+      <div class="panel" style="border-radius:16px">
+        <h2 style="margin-top:0">TF2 · Obsidian Veil</h2>
+        <p>Scouting, early detection, intelligence relay.</p>
+        <p class="small">High autonomy. Low visibility. Report always.</p>
+      </div>
+      <div class="panel" style="border-radius:16px">
+        <h2 style="margin-top:0">TF3 · Obsidian Shield</h2>
+        <p>Response, containment, relief.</p>
+        <p class="small">Stabilize completely. Withdraw cleanly.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="dossiers" style="margin-top:16px" class="panel">
+    <h2>Ship Dossiers</h2>
+    <p class="small">Operational summaries. Full records remain sealed under Accord authority.</p>
+
+    <div class="grid">
+      <!-- TF1 -->
+      <div class="card">
+        <div class="top">
+          <div>
+            <p class="ship">USS Sacagawea</p>
+            <p class="class">Equinox-class Science Vessel (Nova-line Variant, 2409 Oversight Refit)</p>
+          </div>
+          <div class="stamp active">ACTIVE</div>
+        </div>
+        <div class="chips">
+          <div class="chip">TF1</div>
+          <div class="chip">Flagship</div>
+          <div class="chip">Oversight Prime</div>
+        </div>
+        <div class="meta">
+          <div class="row"><span class="k">Assignment</span><span class="v">Obsidian Prime</span></div>
+          <div class="row"><span class="k">Role</span><span class="v">Consequence Assessment</span></div>
+          <div class="row"><span class="k">Notes</span><span class="v">Persistent anomaly exposure</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="top">
+          <div>
+            <p class="ship">USS Powhatan</p>
+            <p class="class">Equinox-class Science Vessel (Nova-line Variant, 2409 Support Refit)</p>
+          </div>
+          <div class="stamp sealed">SEALED</div>
+        </div>
+        <div class="chips">
+          <div class="chip">TF1</div>
+          <div class="chip">Support Asset</div>
+          <div class="chip">Verification</div>
+        </div>
+        <div class="meta">
+          <div class="row"><span class="k">Assignment</span><span class="v">Obsidian Prime</span></div>
+          <div class="row"><span class="k">Role</span><span class="v">Parallel Observation</span></div>
+          <div class="row"><span class="k">Notes</span><span class="v">Independent verification & extraction</span></div>
+        </div>
+      </div>
+
+      <!-- TF2 -->
+      <div class="card">
+        <div class="top">
+          <div>
+            <p class="ship">USS Artemis</p>
+            <p class="class">Chekhov-class Scout</p>
+          </div>
+          <div class="stamp deployed">DEPLOYED</div>
+        </div>
+        <div class="chips">
+          <div class="chip">TF2</div>
+          <div class="chip">Recon</div>
+          <div class="chip">Pathfinding</div>
+        </div>
+        <div class="meta">
+          <div class="row"><span class="k">Assignment</span><span class="v">Obsidian Veil</span></div>
+          <div class="row"><span class="k">Role</span><span class="v">Long-range recon</span></div>
+          <div class="row"><span class="k">Notes</span><span class="v">Operates beyond mapped stability</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="top">
+          <div>
+            <p class="ship">USS Hermes</p>
+            <p class="class">Chekhov-class Scout</p>
+          </div>
+          <div class="stamp deployed">DEPLOYED</div>
+        </div>
+        <div class="chips">
+          <div class="chip">TF2</div>
+          <div class="chip">Courier</div>
+          <div class="chip">Relay</div>
+        </div>
+        <div class="meta">
+          <div class="row"><span class="k">Assignment</span><span class="v">Obsidian Veil</span></div>
+          <div class="row"><span class="k">Role</span><span class="v">Intel relay</span></div>
+          <div class="row"><span class="k">Notes</span><span class="v">Data integrity priority</span></div>
+        </div>
+      </div>
+
+      <!-- TF3 -->
+      <div class="card">
+        <div class="top">
+          <div>
+            <p class="ship">USS Resolute</p>
+            <p class="class">Avenger-class Battlecruiser</p>
+          </div>
+          <div class="stamp active">ACTIVE</div>
+        </div>
+        <div class="chips">
+          <div class="chip">TF3</div>
+          <div class="chip">Containment</div>
+          <div class="chip">Command</div>
+        </div>
+        <div class="meta">
+          <div class="row"><span class="k">Assignment</span><span class="v">Obsidian Shield</span></div>
+          <div class="row"><span class="k">Role</span><span class="v">Tactical response</span></div>
+          <div class="row"><span class="k">Notes</span><span class="v">Escalation authority</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="top">
+          <div>
+            <p class="ship">USS Mercy</p>
+            <p class="class">Sutherland-class Science Cruiser (Nebula Variant)</p>
+          </div>
+          <div class="stamp active">ACTIVE</div>
+        </div>
+        <div class="chips">
+          <div class="chip">TF3</div>
+          <div class="chip">Relief</div>
+          <div class="chip">Stabilization</div>
+        </div>
+        <div class="meta">
+          <div class="row"><span class="k">Assignment</span><span class="v">Obsidian Shield</span></div>
+          <div class="row"><span class="k">Role</span><span class="v">Relief & recovery</span></div>
+          <div class="row"><span class="k">Notes</span><span class="v">Evacuation / medical coordination</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="join" style="margin-top:16px" class="panel">
+    <h2>Join</h2>
+    <p>Recruitment is curated. Discord is the operational hub.</p>
+    <p class="small">Replace the placeholder below with your Discord invite link.</p>
+    <p>Discord: <span class="kbd">PASTE-YOUR-INVITE-LINK-HERE</span></p>
+  </section>
+
+</main>
 
 <footer>
-  Obsidian Accord · 2409
+  Obsidian Accord · 2409 · Obsidian-Sealed Records
 </footer>
 
 </body>
 </html>
-
